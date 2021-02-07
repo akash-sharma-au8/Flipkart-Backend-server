@@ -2,8 +2,8 @@ const jwt = require('jsonwebtoken')
 const multer = require("multer");
 const shortid = require("shortid");
 const path = require("path");
-// const multerS3 = require("multer-s3");
-// const aws = require("aws-sdk");
+const multerS3 = require("multer-s3");
+const aws = require("aws-sdk");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -13,7 +13,30 @@ const storage = multer.diskStorage({
     cb(null, shortid.generate() + "-" + file.originalname);
   },
 });
+
+const accessKeyId = "AKIAJVBOIARHESL7AQ4Q";
+const secretAccessKey = "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";
+
+const s3 = new aws.S3({
+  accessKeyId,
+  secretAccessKey,
+});
+
 exports.upload = multer({ storage });
+
+exports.uploadS3 = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: "flipkart-appclone",
+    acl: "public-read",
+    metadata: function (req, file, cb) {
+      cb(null, { fieldName: file.fieldname });
+    },
+    key: function (req, file, cb) {
+      cb(null, shortid.generate() + "-" + file.originalname);
+    },
+  }),
+});
 
 exports.requireSignin = (req, res, next) => {
   if (req.headers.authorization) {

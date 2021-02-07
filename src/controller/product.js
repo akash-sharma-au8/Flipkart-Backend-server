@@ -31,7 +31,7 @@ exports.createProduct = (req, res) => {
     }
     if (product) {
       return res.status(201).json({
-        product,
+        product, files: req.files
       });
     }
   });

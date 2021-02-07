@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { requireSignin, adminMiddleware } = require("../common-middleware");
+const { requireSignin, adminMiddleware,uploadS3 } = require("../common-middleware");
 const {
   createProduct,
   getProductsBySlug,
@@ -29,7 +29,7 @@ router.post(
   "/product/create",
   requireSignin,
   adminMiddleware,
-  upload.array("productPicture"),
+  uploadS3.array("productPicture"),
   createProduct
 );
 router.get("/products/:slug", getProductsBySlug);
