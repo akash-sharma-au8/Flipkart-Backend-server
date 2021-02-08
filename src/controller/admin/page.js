@@ -34,7 +34,7 @@ exports.createPage = (req, res) => {
       page.save((error, page) => {
         if (error) return res.status(400).json({ error });
         if (page) {
-          return res.status(201).json({ page });
+          return res.status(201).json({ page ,files: req.files});
         }
       });
     }

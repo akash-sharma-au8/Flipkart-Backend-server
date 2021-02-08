@@ -44,7 +44,7 @@ exports.addCategory = (req, res) => {
         error,
       });
     if (category) {
-      return res.status(201).json({ category });
+      return res.status(201).json({ category, file: req.file });
     }
   });
 };
