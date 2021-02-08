@@ -30,7 +30,7 @@ exports.addCategory = (req, res) => {
   };
 
   if (req.file) {
-    categoryObj.categoryImage = "/public/" + req.file.location;
+    categoryObj.categoryImage = req.file.location;
   }
 
   if (req.body.parentId) {
